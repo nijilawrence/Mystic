@@ -1,0 +1,85 @@
+<?php
+//drupal_add_js(drupal_get_path('module', 'custom') .'/custom.js');
+	
+	function custom_init() {
+		drupal_add_js(drupal_get_path('module','custom') . '/custom.js');
+	}
+	function custom_menu() {
+		$items = array();
+
+		$items['calculate'] = array(
+		  'title' => 'Calculator',
+		  'description' => 'Calculator',
+		  'page callback' => 'drupal_get_form',
+		  'page arguments' => array('custom_form'),
+		  'access arguments' => array('access calculator'),
+		);
+		return $items;
+	}
+	function custom_permission(){
+			return array(
+				'access calculator' => array(
+				  'title' => t('Access Calculator'),
+				)  
+			);  
+	}
+	function custom_form($form, &$form_state) {
+			$form['custom_first'] = array(
+				'#type' => 'textfield',
+				'#id' => 'custom_first',
+				'#title' => t('First Number'),
+				'#size' => 10,
+				'#maxlength' => 10,
+				'#description' => t('First Number'),
+				'#required' => TRUE,
+			);
+			$form['custom_second'] = array(
+				'#type' => 'textfield',
+				'#id' => 'custom_second',
+				'#title' => t('Second Number'),
+				'#size' => 10,
+				'#maxlength' => 10,
+				'#description' => t('Second Number'),
+				'#required' => TRUE,
+			);
+			$form['custom_operation'] = array(
+				'#type' => 'select',
+				'#id' => 'custom_operation',
+				'#title' => t('Select operation'),
+				'#description' => t('Select an operation'),
+				'#required' => TRUE,
+				'#options' => array(
+						'add' => 'Addition', 
+						'difference' => 'Difference', 
+						'multiply' => 'Multiply',
+						'divide' => 'Divide',
+						), 
+				);
+				$form['custom_submit'] = array(
+				'#type' => 'button',
+				'#id' => 'custom_submit',
+				'#value' => t('Calcualte'),
+				'#title' => t('Calcualte'),
+				'#submit' => array('custom_form_submit'),
+				);
+				$form['custom_result'] = array(
+				'#type' => 'label',
+				'#id' => 'custom_result',
+				'#title' => t('Result'),
+				);
+
+			return $form;
+	}
+	function custom_form_validate($form, &$form_state){
+		$custom_num1 = $form_state['values']['custom_first'];
+		$custom_num2 = $form_state['values']['custom_second'];
+		if (!ctype_digit($custom_num1)){
+		  form_set_error('custom_first', t('You must enter a number.'));
+		} 
+		if (!ctype_digit($custom_num2)){
+		  form_set_error('custom_second', t('You must enter a number.'));
+		} 
+	}
+	function custom_form_submit($form, &$form_state){
+		dpm($form_state);
+	}

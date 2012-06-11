@@ -1,0 +1,4 @@
+name= Nijo
+description= Module to add a new block view abt the lastest posts
+core= 7.x
+package = Nijo

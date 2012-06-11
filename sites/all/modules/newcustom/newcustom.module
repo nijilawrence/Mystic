@@ -1,0 +1,11 @@
+<?php
+	function custom_menu() {
+		$items['calculate'] = array(
+		  'title' => 'Calculator',
+		  'description' => 'Calculator',
+		  'page callback' => 'drupal_get_form',
+		  'page arguments' => array('custom_form'),
+		  'access arguments' => array('access calculator'),
+		);
+		return $items;
+	}
